@@ -20,6 +20,7 @@ const PartSearch = ({ setCustomParts }) => {
 
     const addPart = (part) => {
         setCustomParts((prevParts) => [...prevParts, { ...part, quantity: 1 }]);
+        alert('Part added successfully!');
     };
 
     return (
@@ -37,16 +38,20 @@ const PartSearch = ({ setCustomParts }) => {
                     Search
                 </button>
             </div>
-            <ul className={styles.partList}>
+            <div className={styles.partGrid}>
                 {searchResults.map((part) => (
-                    <li key={part.part_num} className={styles.partItem}>
-                        {part.name} - {part.part_num}
-                        <button onClick={() => addPart(part)} className={styles.addButton}>
-                            Add
-                        </button>
-                    </li>
+                    <div key={part.part_num} className={styles.partCard}>
+                        <img src={part.part_img_url} alt={part.name} />
+                        <div>
+                            <h4>{part.name}</h4>
+                            <p>ID: {part.part_num}</p>
+                            <button onClick={() => addPart(part)} className={styles.addButton}>
+                                Add
+                            </button>
+                        </div>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };
