@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './SetCustomizer.module.scss';
+import SelectedPartsModal from './SelectedPartsModal';
 
 const SetCustomizer = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -10,16 +11,17 @@ const SetCustomizer = () => {
     const [setInfo, setSetInfo] = useState(null);
     const [setParts, setSetParts] = useState([]);
     const [selectedSearchParts, setSelectedSearchParts] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [searchType, setSearchType] = useState('set');
 
     const handleSearch = async () => {
         setError('');
         setSearchResults([]);
         try {
-            const setInfoResponse = await axios.get(`https://rebrickable.com/api/v3/lego/sets/${searchQuery}/`, {
-                headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` }
-            }).catch(() => null);
-
-            if (setInfoResponse) {
+            if (searchType === 'set') {
+                const setInfoResponse = await axios.get(`https://rebrickable.com/api/v3/lego/sets/${searchQuery}/`, {
+                    headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` }
+                });
                 const setInfo = setInfoResponse.data;
                 const setPartsResponse = await axios.get(`https://rebrickable.com/api/v3/lego/sets/${searchQuery}/parts/`, {
                     headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` }
@@ -71,11 +73,13 @@ const SetCustomizer = () => {
     };
 
     const removePart = (partId) => {
-        setSelectedParts(prevSelected => prevSelected.filter(p => p.id !== partId));
+        setSelectedParts(selectedParts.filter(part => part.id !== partId));
     };
 
     const submitSelection = () => {
         console.log('Submitted parts:', selectedParts);
+        // Add your submission logic here
+        setIsModalOpen(false);
     };
 
     const addSelectedParts = () => {
@@ -86,17 +90,26 @@ const SetCustomizer = () => {
             return [...prevSelected, ...newParts];
         });
         setSelectedSearchParts([]);
+        setIsModalOpen(true); // Open the modal after adding parts
     };
 
     return (
         <div className={styles.customizerContainer}>
             <h1 className={styles.mainTitle}>LEGO Set Customizer</h1>
             <div className={styles.searchContainer}>
+                <select
+                    value={searchType}
+                    onChange={(e) => setSearchType(e.target.value)}
+                    className={styles.searchTypeSelect}
+                >
+                    <option value="set">Set</option>
+                    <option value="part">Part</option>
+                </select>
                 <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search LEGO Sets or Parts"
+                    placeholder={`Search LEGO ${searchType === 'set' ? 'Sets' : 'Parts'}`}
                     className={styles.searchInput}
                 />
                 <button onClick={handleSearch} className={styles.searchButton}>
@@ -153,28 +166,18 @@ const SetCustomizer = () => {
                     <button onClick={addSelectedParts} className={styles.addSelectedButton}>
                         Add Selected Parts
                     </button>
-                </div>
-                <div className={styles.rightColumn}>
-                    <h2 className={styles.sectionTitle}>Selected Parts</h2>
-                    <ul className={styles.selectedPartsList}>
-                        {selectedParts.map((part) => (
-                            <li key={part.id || part.part_num} className={styles.selectedPart}>
-                                <img src={part.part?.part_img_url || part.part_img_url} alt={part.part?.name || part.name} className={styles.selectedPartImage} />
-                                <div className={styles.selectedPartInfo}>
-                                    <p>{part.part?.name || part.name}</p>
-                                    <p>ID: {part.part?.part_num || part.part_num}</p>
-                                </div>
-                                <button onClick={() => removePart(part.id || part.part_num)} className={styles.removeButton}>
-                                    Remove
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                    <button onClick={submitSelection} className={styles.submitButton}>
-                        Submit Selection
-                    </button>
-                </div>
+                </div>                
+                <button onClick={() => setIsModalOpen(true)} className={styles.floatingButton}>
+                    Open Selected Parts
+                </button>
             </div>
+            <SelectedPartsModal
+                isOpen={isModalOpen}
+                onRequestClose={() => setIsModalOpen(false)}
+                selectedParts={selectedParts}
+                removePart={removePart}
+                submitSelection={submitSelection}
+            />
         </div>
     );
 };

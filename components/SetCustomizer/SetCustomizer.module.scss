@@ -30,20 +30,34 @@ font-size: 40px;
 
 .searchContainer {
     display: flex;
-justify-content: center;
+    justify-content: center;
     margin-bottom: 30px;
 }
 
-.searchInput {
-    width: 60%;
+.searchTypeSelect {
     padding: 10px;
     font-size: 1rem;
     border: 2px solid $border-color;
     border-radius: 5px 0 0 5px;
+    background-color: white;
+        cursor: pointer;
+    
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+        }
+    }
+    
+    .searchInput {
+        width: 50%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 2px solid $border-color;
+        border-left: none;
 
     &:focus {
         outline: none;
-    border-color: $primary-color;
+        border-color: $primary-color;
     }
 }
 
@@ -51,16 +65,16 @@ justify-content: center;
     @include button-style;
     background-color: $primary-color;
     color: white;
-border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0;
 
     &:hover {
-    background-color: darken($primary-color, 10%);
+        background-color: darken($primary-color, 10%);
     }
 }
 
 .mainContent {
     display: flex;
-    gap: 30px;
+    flex-direction: column;
 }
 
 .leftColumn {
@@ -277,4 +291,66 @@ padding: 5px 10px;
             font-size: 16px;
             margin-bottom: 5px;
     }
+}
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+    position: relative;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.floatingButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 24px;
+}
+
+.submitButton {
+    @include button-style;
+    background-color: $primary-color;
+    color: white;
+    width: 100%;
+    margin-top: 20px;
 }
