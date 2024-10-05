@@ -9,6 +9,7 @@ const SelectedPartsModal = ({ isOpen, onRequestClose, selectedParts, removePart,
             onRequestClose={onRequestClose}
             className={styles.modal}
             overlayClassName={styles.overlay}
+            ariaHideApp={false}
         >
             <div className={styles.modalContent}>
                 <h2>Selected Parts</h2>
