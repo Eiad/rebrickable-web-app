@@ -47,11 +47,11 @@ const SetCustomizer = () => {
             }
 
             if (searchResults.length === 0) {
-                setError('No results found. Please try a different search term.');
+                setError('No resultsZZZZ. Try again.');
             }
         } catch (error) {
-            console.error('Error searching:', error);
-            setError('An error occurred while searching. Please try again.');
+            console.error('Search errorrrry:', error);
+            setError('Search faileddo dododo.');
         }
     };
 
@@ -96,17 +96,17 @@ const SetCustomizer = () => {
             setSubmissionStatus({
                 success: true,
                 message: 'Your custom set has been added to the database!',
-                id: response.data.id || customSetId // Use the returned ID or fallback to customSetId
+                id: response.data.id || customSetId
             });
         } catch (error) {
-            console.error('Error submitting custom set:', error);
-            let errorMessage = 'An error occurred while adding the custom set. Please try again.';
+            console.error('Error submittingzzz:', error);
+            let errorMessage = 'Adding failedoo dododo';
             if (error.response) {
-                errorMessage = `Server error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`;
+                errorMessage = `Server oopsieZzZz: ${error.response.status} - ${error.response.data.message || error.response.statusText}`;
             } else if (error.request) {
-                errorMessage = 'No response received from the server. Please check your network connection.';
+                errorMessage = 'No answerZzzzZ';
             } else {
-                errorMessage = `Error: ${error.message}`;
+                errorMessage = `Error happenedZZZZ: ${error.message}`;
             }
             setSubmissionStatus({
                 success: false,
@@ -123,14 +123,14 @@ const SetCustomizer = () => {
             return [...prevSelected, ...newParts];
         });
         setSelectedSearchParts([]);
-        setIsModalOpen(true); // Open the modal after adding parts
+        setIsModalOpen(true); 
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedParts([]);
         setSubmissionStatus(null);
-        setCustomSetId(uuidv4()); // Generate a new ID for the next set
+        setCustomSetId(uuidv4()); 
     };
 
     return (
