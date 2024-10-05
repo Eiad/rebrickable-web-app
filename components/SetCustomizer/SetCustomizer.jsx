@@ -119,54 +119,63 @@ const SetCustomizer = () => {
             {error && <p className={styles.error}>{error}</p>}
             <div className={styles.mainContent}>
                 <div className={styles.leftColumn}>
-                    <div className={styles.controlButtons}>
-                        <button onClick={selectAllParts} className={styles.secondaryButton}>Select All</button>
-                        <button onClick={unselectAllParts} className={styles.secondaryButton}>Unselect All</button>
-                    </div>
-                    <h2 className={styles.sectionTitle}>
-                        {searchResults.length === 1 && searchResults[0].setInfo ? 'Set Information' : 'Search Results'}
-                    </h2>
-                    {searchResults.length === 1 && searchResults[0].setInfo && (
-                        <div className={styles.setInfo}>
-                            <img src={searchResults[0].setInfo.set_img_url} alt={searchResults[0].setInfo.name} className={styles.setImage} />
-                            <div className={styles.setDetails}>
-                                <h3>{searchResults[0].setInfo.name}</h3>
-                                <p>Set Number: {searchResults[0].setInfo.set_num}</p>
-                                <p>Year: {searchResults[0].setInfo.year}</p>
-                                <p>Number of Parts: {searchResults[0].setInfo.num_parts}</p>
-                            </div>
+                    {searchResults.length === 0 ? (
+                        <div className={styles.emptyState}>
+                            <h2>Search your first set or parts</h2>
+                            <p>Enter a LEGO set number or part name to get started!</p>
                         </div>
-                    )}
-                    <h3 className={styles.partsTitle}>
-                        {searchResults.length === 1 && searchResults[0].setInfo ? 'Parts in this set:' : 'Search Results:'}
-                    </h3>
-                    <div className={styles.resultsContainer}>
-                        <div className={styles.partGrid}>
-                            {(searchResults.length === 1 && searchResults[0].parts ? searchResults[0].parts : searchResults).map((item) => (
-                                <div key={item.id || item.part_num} className={styles.partCard}>
-                                    <img src={item.part?.part_img_url || item.part_img_url} alt={item.part?.name || item.name} />
-                                    <div className={styles.partInfo}>
-                                        <h4>{item.part?.name || item.name}</h4>
-                                        <p>ID: {item.part?.part_num || item.part_num}</p>
-                                        {item.quantity && <p>Quantity: {item.quantity}</p>}
-                                    </div>
-                                    <label className={styles.checkbox}>
-                                        <input
-                                            type="checkbox"
-                                            className={styles.checkboxInput}
-                                            checked={selectedSearchParts.includes(item.id || item.part_num)}
-                                            onChange={() => toggleSelectPart(item)}
-                                        />
-                                        <span className={styles.checkmark}></span>
-                                    </label>
+                    ) : (
+                        <>
+                                <div className={styles.controlButtons}>
+                                    <button onClick={selectAllParts} className={styles.secondaryButton}>Select All</button>
+                                    <button onClick={unselectAllParts} className={styles.secondaryButton}>Unselect All</button>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-                    <button onClick={addSelectedParts} className={styles.addSelectedButton}>
-                        Add Selected Parts
-                    </button>
-                </div>                
+                                <h2 className={styles.sectionTitle}>
+                                    {searchResults.length === 1 && searchResults[0].setInfo ? 'Set Information' : 'Search Results'}
+                                </h2>
+                                {searchResults.length === 1 && searchResults[0].setInfo && (
+                                    <div className={styles.setInfo}>
+                                        <img src={searchResults[0].setInfo.set_img_url} alt={searchResults[0].setInfo.name} className={styles.setImage} />
+                                        <div className={styles.setDetails}>
+                                            <h3>{searchResults[0].setInfo.name}</h3>
+                                            <p>Set Number: {searchResults[0].setInfo.set_num}</p>
+                                            <p>Year: {searchResults[0].setInfo.year}</p>
+                                            <p>Number of Parts: {searchResults[0].setInfo.num_parts}</p>
+                                        </div>
+                                    </div>
+                                )}
+                                <h3 className={styles.partsTitle}>
+                                    {searchResults.length === 1 && searchResults[0].setInfo ? 'Parts in this set:' : 'Search Results:'}
+                                </h3>
+                                <div className={styles.resultsContainer}>
+                                    <div className={styles.partGrid}>
+                                        {(searchResults.length === 1 && searchResults[0].parts ? searchResults[0].parts : searchResults).map((item) => (
+                                            <div key={item.id || item.part_num} className={styles.partCard}>
+                                                <img src={item.part?.part_img_url || item.part_img_url} alt={item.part?.name || item.name} />
+                                                <div className={styles.partInfo}>
+                                                    <h4>{item.part?.name || item.name}</h4>
+                                                    <p>ID: {item.part?.part_num || item.part_num}</p>
+                                                    {item.quantity && <p>Quantity: {item.quantity}</p>}
+                                                </div>
+                                                <label className={styles.checkbox}>
+                                                    <input
+                                                        type="checkbox"
+                                                        className={styles.checkboxInput}
+                                                        checked={selectedSearchParts.includes(item.id || item.part_num)}
+                                                        onChange={() => toggleSelectPart(item)}
+                                                    />
+                                                    <span className={styles.checkmark}></span>
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <button onClick={addSelectedParts} className={styles.addSelectedButton}>
+                                    Add Selected Parts
+                                </button>
+                        </>
+                    )}
+                </div>
                 <button onClick={() => setIsModalOpen(true)} className={styles.floatingButton}>
                     Open Selected Parts
                 </button>
