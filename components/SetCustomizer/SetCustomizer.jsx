@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './SetCustomizer.module.scss';
 import SelectedPartsModal from './SelectedPartsModal';
+import { v4 as uuidv4 } from 'uuid';
 
 const SetCustomizer = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -13,6 +14,8 @@ const SetCustomizer = () => {
     const [selectedSearchParts, setSelectedSearchParts] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchType, setSearchType] = useState('set');
+    const [customSetId, setCustomSetId] = useState(uuidv4());
+    const [submissionStatus, setSubmissionStatus] = useState(null);
 
     const handleSearch = async () => {
         setError('');
@@ -73,13 +76,43 @@ const SetCustomizer = () => {
     };
 
     const removePart = (partId) => {
-        setSelectedParts(selectedParts.filter(part => part.id !== partId));
+        setSelectedParts(selectedParts.filter(part => (part.id || part.part_num) !== partId));
     };
 
-    const submitSelection = () => {
-        console.log('Submitted parts:', selectedParts);
-        // Add your submission logic here
-        setIsModalOpen(false);
+    const submitSelection = async () => {
+        try {
+            const partsToSubmit = selectedParts.map(part => ({
+                name: part.part?.name || part.name,
+                part_number: part.part?.part_num || part.part_num,
+                quantity: part.quantity || 1
+            }));
+
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_LEGO_API_BASE_URL}/api/custom-sets`, {
+                custom_set_id: customSetId,
+                parts: partsToSubmit
+            });
+
+            console.log('Custom set added:', response.data);
+            setSubmissionStatus({
+                success: true,
+                message: 'Your custom set has been added to the database!',
+                id: response.data.id || customSetId // Use the returned ID or fallback to customSetId
+            });
+        } catch (error) {
+            console.error('Error submitting custom set:', error);
+            let errorMessage = 'An error occurred while adding the custom set. Please try again.';
+            if (error.response) {
+                errorMessage = `Server error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`;
+            } else if (error.request) {
+                errorMessage = 'No response received from the server. Please check your network connection.';
+            } else {
+                errorMessage = `Error: ${error.message}`;
+            }
+            setSubmissionStatus({
+                success: false,
+                message: errorMessage
+            });
+        }
     };
 
     const addSelectedParts = () => {
@@ -91,6 +124,13 @@ const SetCustomizer = () => {
         });
         setSelectedSearchParts([]);
         setIsModalOpen(true); // Open the modal after adding parts
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedParts([]);
+        setSubmissionStatus(null);
+        setCustomSetId(uuidv4()); // Generate a new ID for the next set
     };
 
     return (
@@ -182,10 +222,11 @@ const SetCustomizer = () => {
             </div>
             <SelectedPartsModal
                 isOpen={isModalOpen}
-                onRequestClose={() => setIsModalOpen(false)}
+                onRequestClose={closeModal}
                 selectedParts={selectedParts}
                 removePart={removePart}
                 submitSelection={submitSelection}
+                submissionStatus={submissionStatus}
             />
         </div>
     );
