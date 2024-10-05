@@ -9,7 +9,7 @@ const PartSearch = ({ setCustomParts }) => {
     const searchParts = async () => {
         try {
             const response = await axios.get(`https://rebrickable.com/api/v3/lego/parts/`, {
-                headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` },
+                headers: { 'Authorization': `key ${process.env.REBRICKABLE_API_KEY}` },
                 params: { search: searchQuery }
             });
             setSearchResults(response.data.results);

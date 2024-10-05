@@ -23,11 +23,11 @@ const SetCustomizer = () => {
         try {
             if (searchType === 'set') {
                 const setInfoResponse = await axios.get(`https://rebrickable.com/api/v3/lego/sets/${searchQuery}/`, {
-                    headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` }
+                    headers: { 'Authorization': `key ${process.env.REBRICKABLE_API_KEY}` }
                 });
                 const setInfo = setInfoResponse.data;
                 const setPartsResponse = await axios.get(`https://rebrickable.com/api/v3/lego/sets/${searchQuery}/parts/`, {
-                    headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` }
+                    headers: { 'Authorization': `key ${process.env.REBRICKABLE_API_KEY}` }
                 });
                 const setParts = setPartsResponse.data.results.map(item => ({
                     ...item,
@@ -36,7 +36,7 @@ const SetCustomizer = () => {
                 setSearchResults([{ setInfo, parts: setParts }]);
             } else {
                 const partResponse = await axios.get(`https://rebrickable.com/api/v3/lego/parts/`, {
-                    headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` },
+                    headers: { 'Authorization': `key ${process.env.REBRICKABLE_API_KEY}` },
                     params: { search: searchQuery }
                 });
                 const individualParts = partResponse.data.results.map(item => ({
