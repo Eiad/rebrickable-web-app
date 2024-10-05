@@ -87,7 +87,7 @@ const SetCustomizer = () => {
                 quantity: part.quantity || 1
             }));
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_LEGO_API_BASE_URL}/api/custom-sets`, {
+            const response = await axios.post(`${process.env.LEGO_API_BASE_URL}/api/custom-sets`, {
                 custom_set_id: customSetId,
                 parts: partsToSubmit
             });
