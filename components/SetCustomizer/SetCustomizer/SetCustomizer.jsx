@@ -30,8 +30,7 @@ const SetCustomizer = () => {
                     headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` }
                 });
                 const setInfo = setInfoResponse.data;
-
-                // Fetch theme information
+                
                 const themeResponse = await axios.get(`https://rebrickable.com/api/v3/lego/themes/${setInfo.theme_id}/`, {
                     headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` }
                 });
