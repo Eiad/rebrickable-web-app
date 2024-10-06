@@ -24,6 +24,7 @@ const SetCustomizer = () => {
         setSearchResults([]);
         setThemeInfo(null);
         try {
+            let results = [];
             if (searchType === 'set') {
                 const setInfoResponse = await axios.get(`https://rebrickable.com/api/v3/lego/sets/${searchQuery}/`, {
                     headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` }
@@ -43,25 +44,27 @@ const SetCustomizer = () => {
                     ...item,
                     isSetPart: true
                 }));
-                setSearchResults([{ setInfo, parts: setParts }]);
+                results = [{ setInfo, parts: setParts }];
             } else {
                 const partResponse = await axios.get(`https://rebrickable.com/api/v3/lego/parts/`, {
                     headers: { 'Authorization': `key ${process.env.NEXT_PUBLIC_REBRICKABLE_API_KEY}` },
                     params: { search: searchQuery }
                 });
-                const individualParts = partResponse.data.results.map(item => ({
+                results = partResponse.data.results.map(item => ({
                     ...item,
                     isSetPart: false
                 }));
-                setSearchResults(individualParts);
             }
 
-            if (searchResults.length === 0) {
-                setError('No resultsZZZZ. Try again.');
+            setSearchResults(results);
+
+            // Set error message if no results are found
+            if (results.length === 0) {
+                setError('No results found. Try again.');
             }
         } catch (error) {
-            console.error('Search errorrrry:', error);
-            setError('Search faileddo dododo.');
+            console.error('Search error:', error);
+            setError('Search failed. Please try again.');
         }
     };
 
