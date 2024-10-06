@@ -19,12 +19,15 @@ const SetCustomizer = () => {
     const [submissionStatus, setSubmissionStatus] = useState(null);
     const [themeInfo, setThemeInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [checkedParts, setCheckedParts] = useState([]);
 
     const handleSearch = async () => {
         setError('');
         setSearchResults([]);
         setThemeInfo(null);
         setIsLoading(true);
+        setSelectedSearchParts([]);
+        setCheckedParts([]);
         try {
             let results = [];
             if (searchType === 'set') {
@@ -72,22 +75,27 @@ const SetCustomizer = () => {
     const toggleSelectPart = (event, part) => {
         event.preventDefault();
         const partId = part.id || part.part_num;
-        setSelectedSearchParts(prevSelected =>
-            prevSelected.includes(partId)
+        setSelectedSearchParts(prevSelected => {
+            const newSelected = prevSelected.includes(partId)
                 ? prevSelected.filter(id => id !== partId)
-                : [...prevSelected, partId]
-        );
+                : [...prevSelected, partId];
+            setCheckedParts(newSelected);
+            return newSelected;
+        });
     };
 
     const selectAllParts = () => {
         const partsToSelect = searchResults.length === 1 && searchResults[0].parts
             ? searchResults[0].parts
             : searchResults;
-        setSelectedSearchParts(partsToSelect.map(part => part.id || part.part_num));
+        const selectedIds = partsToSelect.map(part => part.id || part.part_num);
+        setSelectedSearchParts(selectedIds);
+        setCheckedParts(selectedIds);
     };
 
     const unselectAllParts = () => {
         setSelectedSearchParts([]);
+        setCheckedParts([]);
     };
 
     const removePart = (partId) => {
@@ -147,7 +155,6 @@ const SetCustomizer = () => {
             }));
             return [...prevSelected, ...newParts.filter(newPart => !prevSelected.some(p => p.id === newPart.id))];
         });
-        setSelectedSearchParts([]);
         setIsModalOpen(true);
     };
 
@@ -155,6 +162,8 @@ const SetCustomizer = () => {
         setIsModalOpen(false);
         if (submissionStatus && submissionStatus.success) {
             setSelectedParts([]);
+            setSelectedSearchParts([]);
+            setCheckedParts([]);
         }
         setSubmissionStatus(null);
         setCustomSetId(uuidv4());
@@ -264,7 +273,7 @@ const SetCustomizer = () => {
                                                             <input
                                                                 type="checkbox"
                                                                 className={styles.checkboxInput}
-                                                                checked={selectedSearchParts.includes(item.id || item.part_num)}
+                                                                checked={checkedParts.includes(item.id || item.part_num)}
                                                                 onChange={(e) => e.stopPropagation()} 
                                                             />
                                                             <span className={styles.checkmark}></span>
