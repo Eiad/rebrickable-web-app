@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from './SetCustomizer.module.scss';
+import styles from '../SetCustomizer/SetCustomizer/SetCustomizer.module.scss';
 
 const PartSearch = ({ setCustomParts }) => {
     const [searchQuery, setSearchQuery] = useState('');

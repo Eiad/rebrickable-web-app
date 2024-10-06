@@ -1,5 +1,5 @@
 import React from 'react';
-import SetCustomizer from '../components/SetCustomizer/SetCustomizer.jsx';
+import SetCustomizer from '../components/SetCustomizer/SetCustomizer/SetCustomizer.jsx';
 
 const Home = () => {
     return (

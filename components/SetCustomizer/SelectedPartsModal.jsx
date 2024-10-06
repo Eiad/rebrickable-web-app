@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import styles from './SetCustomizer.module.scss';
+import styles from '../SetCustomizer/SetCustomizer/SetCustomizer.module.scss';
 
 const SelectedPartsModal = ({ isOpen, onRequestClose, selectedParts, removePart, submitSelection, submissionStatus }) => {
     return (
