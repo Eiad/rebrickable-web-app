@@ -18,9 +18,14 @@ const SelectedPartsModal = ({ isOpen, onRequestClose, selectedParts, removePart,
                     <div className={submissionStatus.success ? styles.successMessage : styles.errorMessage}>
                         <p>{submissionStatus.message}</p>
                         {submissionStatus.success && submissionStatus.id && (
-                            <p>Custom Set ID: {submissionStatus.id}</p>
+                            <p>Custom Set ID: <b>{submissionStatus.id}</b></p>
                         )}
-                        <button onClick={onRequestClose} className={styles.doneButton}>Done</button>
+                        <button 
+                            onClick={onRequestClose} 
+                            className={`${styles.submitButton} ${styles.databaseSubmitted}`}
+                        >
+                            Done
+                        </button>
                     </div>
                 ) : (
                     <>

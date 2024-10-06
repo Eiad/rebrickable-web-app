@@ -459,7 +459,7 @@ $font-size-xxl: 32px;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -70%);
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -480,6 +480,11 @@ $font-size-xxl: 32px;
 
 .modalContent {
     position: relative;
+
+    h2{
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
 }
 
 .modalTitle {
@@ -489,11 +494,11 @@ $font-size-xxl: 32px;
 
 .closeButton {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: -13px;
+    right: 0px;
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 34px;
     cursor: pointer;
 }
 
@@ -600,10 +605,7 @@ $font-size-xxl: 32px;
 
 .emptyState {
     text-align: center;
-    padding: 40px;
-    background-color: white;
-    border-radius: $border-radius;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px 0 0 0;
 
     h2 {
         font-size: $font-size-xxl;
