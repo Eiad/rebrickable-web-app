@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import Modal from 'react-modal';
 import styles from '../SetCustomizer/SetCustomizer/SetCustomizer.module.scss';
+import { loader_icon } from '@/utilities/images';
 
 const SelectedPartsModal = ({ isOpen, onRequestClose, selectedParts, removePart, submitSelection, submissionStatus }) => {
     const [searchQuery, setSearchQuery] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const filteredParts = useMemo(() => {
         return selectedParts.filter(part => {
@@ -22,7 +24,7 @@ const SelectedPartsModal = ({ isOpen, onRequestClose, selectedParts, removePart,
             overlayClassName={styles.overlay}
             ariaHideApp={false}
         >
-            <div className={styles.modalContent}>
+            <div className={`${styles.modalContent} ${isSubmitting ? styles.submitting : ''}`}>
                 <h2>Selected Parts</h2>
                 <button onClick={onRequestClose} className={styles.closeButton}>&times;</button>
                 {submissionStatus ? (
@@ -52,7 +54,7 @@ const SelectedPartsModal = ({ isOpen, onRequestClose, selectedParts, removePart,
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Search this selecion..."
+                                    placeholder="Search this selection..."
                                     className={styles.searchInputFilter}
                                 />
                                 <ul className={styles.selectedPartsList}>
@@ -69,8 +71,22 @@ const SelectedPartsModal = ({ isOpen, onRequestClose, selectedParts, removePart,
                                         </li>
                                     ))}
                                 </ul>
-                                <button onClick={submitSelection} className={styles.submitButton}>
-                                    Submit Selection
+                                <button 
+                                    onClick={() => {
+                                        setIsSubmitting(true);
+                                        submitSelection().finally(() => setIsSubmitting(false));
+                                    }}
+                                    className={styles.submitButton}
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? (
+                                        <>
+                                            <img src={loader_icon} alt="Loading" className={styles.loadingIcon} />
+                                            Submitting...
+                                        </>
+                                    ) : (
+                                        'Submit Selection'
+                                    )}
                                 </button>
                             </>
                         )}

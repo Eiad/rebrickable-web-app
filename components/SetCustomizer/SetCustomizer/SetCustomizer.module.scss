@@ -480,8 +480,13 @@ $font-size-xxl: 32px;
 
 .modalContent {
     position: relative;
+    transition: opacity 0.3s ease;
 
-    h2{
+    &.submitting {
+        opacity: 0.6;
+    }
+
+    h2 {
         font-size: 20px;
         margin-bottom: 12px;
     }
@@ -674,6 +679,7 @@ $font-size-xxl: 32px;
     width: 20px;
     height: 20px;
     animation: spin 1s linear infinite;
+    margin-right: 10px;
 }
 
 @keyframes spin {

@@ -113,15 +113,19 @@ const SetCustomizer = () => {
                 message: 'Your custom set has been added to the database!',
                 id: response.data.id || customSetId
             });
+            
+            // Clear the selectedParts after successful submission
+            setSelectedParts([]);
+            
         } catch (error) {
-            console.error('Error submittingzzz:', error);
-            let errorMessage = 'Adding failedoo dododo';
+            console.error('Error submitting:', error);
+            let errorMessage = 'Adding failed';
             if (error.response) {
-                errorMessage = `Server oopsieZzZz: ${error.response.status} - ${error.response.data.message || error.response.statusText}`;
+                errorMessage = `Server error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`;
             } else if (error.request) {
-                errorMessage = 'No answerZzzzZ';
+                errorMessage = 'No response from server';
             } else {
-                errorMessage = `Error happenedZZZZ: ${error.message}`;
+                errorMessage = `Error occurred: ${error.message}`;
             }
             setSubmissionStatus({
                 success: false,
@@ -149,6 +153,9 @@ const SetCustomizer = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        if (submissionStatus && submissionStatus.success) {
+            setSelectedParts([]);
+        }
         setSubmissionStatus(null);
         setCustomSetId(uuidv4());
     };
