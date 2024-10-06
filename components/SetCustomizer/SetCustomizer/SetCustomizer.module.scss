@@ -1,74 +1,102 @@
-// Color variables
-$primary-color: #006db7;
+$primary-bg: #F9D549;
+$primary-white: #f5f5f5;
+$primary-red: #E96F14;
+$primary-red-dark: #e3000b;
+$primary-black: #111827;
+$primary-grey-1: #A1A1AA;
 $secondary-color: #ffcf00;
 $background-color: #f5f5f5;
 $text-color: #333;
 $border-color: #ddd;
+$border-radius: 3px;
 
-// Mixins
-@mixin button-style {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.mainWrapper {
+    background-color: $primary-white;
 }
+
+.mainBodyContainer {    
+    display: flex;
+    flex-direction: column;
+    height: calc(60vh - 100px);
+    max-height: 100%;
+
+    >* {
+        width: 100%;
+    }
+}
+
+.logoContainer {
+    background-color: $primary-bg;
+    padding: 10px 0;
+}
+
 .customizerContainer {
     font-family: 'Roboto', sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
-        background-color: #f9f9f9;
+}
+
+.searchHead {
+    margin: auto auto;
+    padding: 0 20px;
 }
 
 .mainTitle {
-    color: $primary-color;
-    text-align: center;
-    font-size: 3rem;
-        margin-bottom: 40px;
+    color: $primary-red;
+    font-size: 32px;
+    color: $primary-black;
+    margin: 5px 0;
+
+    >span {
+        color: red;
+    }
+}
+
+.mainSubTitle {
+    color: $primary-grey-1;
+    margin: 15px 0;
 }
 
 .searchContainer {
     display: flex;
     justify-content: center;
     margin-bottom: 40px;
+    margin-top: 22px;
 }
 
 .searchTypeSelect {
     padding: 10px;
-    font-size: 1rem;
-    border: 2px solid $border-color;
-    border-radius: 5px 0 0 5px;
+    color: $primary-red;
+    font-size: 14px;
+    border: 1px solid $border-color;
+    border-radius: $border-radius 0 0 $border-radius;
     background-color: white;
     cursor: pointer;
-    
-        &:focus {
-            outline: none;
-            border-color: $primary-color;
-        }
-    }
-    
-    .searchInput {
-        width: 50%;
-        padding: 10px;
-        font-size: 1rem;
-        border: 2px solid $border-color;
-        border-left: none;
+    height: 42px !important;
 
     &:focus {
         outline: none;
-        border-color: $primary-color;
+    }
+}
+
+.searchInput {
+    width: 50%;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid $border-color;
+    border-left: none;
+
+    &:focus {
+        outline: none;
+        border-color: $primary-red;
     }
 }
 
 .searchButton {
-    @include button-style;
-    background-color: $primary-color;
+    background-color: $primary-red;
     color: white;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 $border-radius $border-radius 0;
 
     &:hover {
-        background-color: darken($primary-color, 10%);
+        background-color: darken($primary-red, 10%);
     }
 }
 
@@ -78,23 +106,19 @@ $border-color: #ddd;
 }
 
 .leftColumn {
-    flex: 7;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .rightColumn {
     flex: 3;
     background-color: white;
-    border-radius: 10px;
+    border-radius: $border-radius;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .sectionTitle {
-    color: $primary-color;
+    color: $primary-red;
     font-size: 1.5rem;
     margin-bottom: 20px;
 }
@@ -106,7 +130,7 @@ $border-color: #ddd;
 }
 
 .secondaryButton {
-    @include button-style;
+
     background-color: $secondary-color;
     color: $text-color;
 
@@ -126,7 +150,7 @@ $border-color: #ddd;
 .partCard {
     background-color: white;
     border: 1px solid $border-color;
-    border-radius: 5px;
+    border-radius: $border-radius;
     padding: 10px;
     text-align: center;
     transition: transform 0.3s ease;
@@ -180,7 +204,7 @@ $border-color: #ddd;
     height: 25px;
     width: 25px;
     background-color: #eee;
-    border-radius: 5px;
+    border-radius: $border-radius;
 
     &:after {
         content: "";
@@ -192,8 +216,9 @@ $border-color: #ddd;
 .checkbox:hover .checkboxInput~.checkmark {
     background-color: #ccc;
 }
+
 .checkbox .checkboxInput:checked~.checkmark {
-    background-color: $primary-color;
+    background-color: $primary-red;
 }
 
 .checkbox .checkboxInput:checked~.checkmark:after {
@@ -212,14 +237,13 @@ $border-color: #ddd;
 
 .addSelectedButton,
 .submitButton {
-    @include button-style;
-    background-color: $primary-color;
+    background-color: $primary-red;
     color: white;
     width: 100%;
-        margin-top: 20px;
+    margin-top: 20px;
 
     &:hover {
-        background-color: darken($primary-color, 10%);
+        background-color: darken($primary-red, 10%);
     }
 }
 
@@ -234,7 +258,7 @@ $border-color: #ddd;
     margin-bottom: 10px;
     padding: 10px;
     background-color: #f9f9f9;
-    border-radius: 5px;
+    border-radius: $border-radius;
 }
 
 .selectedPartImage {
@@ -249,7 +273,7 @@ $border-color: #ddd;
 }
 
 .removeButton {
-    @include button-style;
+
     background-color: #ff4d4d;
     color: white;
     padding: 5px 10px;
@@ -272,7 +296,7 @@ $border-color: #ddd;
     margin-bottom: 20px;
     background-color: #fff;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: $border-radius;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -292,6 +316,7 @@ $border-color: #ddd;
         margin-bottom: 5px;
     }
 }
+
 .modal {
     position: absolute;
     top: 50%;
@@ -299,7 +324,7 @@ $border-color: #ddd;
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: $border-radius;
     max-width: 500px;
     width: 90%;
     max-height: 80vh;
@@ -333,7 +358,7 @@ $border-color: #ddd;
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: $primary-color;
+    background-color: $primary-red;
     color: white;
     border: none;
     border-radius: 50%;
@@ -348,22 +373,22 @@ $border-color: #ddd;
 }
 
 .submitButton {
-    @include button-style;
-    background-color: $primary-color;
+    background-color: $primary-red;
     color: white;
     width: 100%;
     margin-top: 20px;
 }
+
 .emptyState {
     text-align: center;
     padding: 40px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: $border-radius;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
     h2 {
         font-size: 2rem;
-        color: #006db7;
+        color: $primary-red;
         margin-bottom: 20px;
     }
 
@@ -377,17 +402,18 @@ $border-color: #ddd;
 .searchTypeSelect,
 .searchInput,
 .searchButton {
-    height: 50px;
-    font-size: 1rem;
-    border: 2px solid #ddd;
+    height: 44px;
+    font-size: 14px;
+    border: 1px solid #ddd;
     transition: all 0.3s ease;
 }
 
 .searchTypeSelect {
-    border-radius: 25px 0 0 25px;
+    border-radius: $border-radius 0 0 $border-radius;
     padding: 0 20px;
     background-color: white;
     cursor: pointer;
+    border: 1px solid #ddd;
 }
 
 .searchInput {
@@ -396,17 +422,18 @@ $border-color: #ddd;
     padding: 0 20px;
     border-left: none;
     border-right: none;
+    height: 42px;
 }
 
 .searchButton {
-    border-radius: 0 25px 25px 0;
+    border-radius: 0 $border-radius $border-radius 0;
     padding: 0 30px;
-    background-color: #006db7;
+    background-color: $primary-red;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
 
     &:hover {
-        background-color: #005294;
+        background-color: $primary-red-dark;
     }
 }

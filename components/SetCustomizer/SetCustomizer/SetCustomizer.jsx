@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './SetCustomizer.module.scss';
 import SelectedPartsModal from '../SelectedPartsModal';
+import { lego_logo_icon } from '@/utilities/images';
 import { v4 as uuidv4 } from 'uuid';
 
 const SetCustomizer = () => {
@@ -134,100 +135,106 @@ const SetCustomizer = () => {
     };
 
     return (
-        <div className={styles.customizerContainer}>
-            <h1 className={styles.mainTitle}>LEGO Set Customizer</h1>
-            <div className={styles.searchContainer}>
-                <select
-                    value={searchType}
-                    onChange={(e) => setSearchType(e.target.value)}
-                    className={styles.searchTypeSelect}
-                >
-                    <option value="set">Set</option>
-                    <option value="part">Part</option>
-                </select>
-                <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={`Search LEGO ${searchType === 'set' ? 'Sets' : 'Parts'}`}
-                    className={styles.searchInput}
-                />
-                <button onClick={handleSearch} className={styles.searchButton}>
-                    Search
-                </button>
-            </div>
-            {error && <p className={styles.error}>{error}</p>}
-            <div className={styles.mainContent}>
-                <div className={styles.leftColumn}>
-                    {searchResults.length === 0 ? (
-                        <div className={styles.emptyState}>
-                            <h2>Search your first set or parts</h2>
-                            <p>Enter a LEGO set number or part name to get started!</p>
-                        </div>
-                    ) : (
-                        <>
-                            <div className={styles.controlButtons}>
-                                <button onClick={selectAllParts} className={styles.secondaryButton}>Select All</button>
-                                <button onClick={unselectAllParts} className={styles.secondaryButton}>Unselect All</button>
-                            </div>
-                            <h2 className={styles.sectionTitle}>
-                                {searchResults.length === 1 && searchResults[0].setInfo ? 'Set Information' : 'Search Results'}
-                            </h2>
-                            {searchResults.length === 1 && searchResults[0].setInfo && (
-                                <div className={styles.setInfo}>
-                                    <img src={searchResults[0].setInfo.set_img_url} alt={searchResults[0].setInfo.name} className={styles.setImage} />
-                                    <div className={styles.setDetails}>
-                                        <h3>{searchResults[0].setInfo.name}</h3>
-                                        <p>Set Number: {searchResults[0].setInfo.set_num}</p>
-                                        <p>Year: {searchResults[0].setInfo.year}</p>
-                                        <p>Number of Parts: {searchResults[0].setInfo.num_parts}</p>
-                                    </div>
-                                </div>
-                            )}
-                            <h3 className={styles.partsTitle}>
-                                {searchResults.length === 1 && searchResults[0].setInfo ? 'Parts in this set:' : 'Search Results:'}
-                            </h3>
-                            <div className={styles.resultsContainer}>
-                                <div className={styles.partGrid}>
-                                    {(searchResults.length === 1 && searchResults[0].parts ? searchResults[0].parts : searchResults).map((item) => (
-                                        <div key={item.id || item.part_num} className={styles.partCard}>
-                                            <img src={item.part?.part_img_url || item.part_img_url} alt={item.part?.name || item.name} />
-                                            <div className={styles.partInfo}>
-                                                <h4>{item.part?.name || item.name}</h4>
-                                                <p>ID: {item.part?.part_num || item.part_num}</p>
-                                                {item.quantity && <p>Quantity: {item.quantity}</p>}
-                                            </div>
-                                            <label className={styles.checkbox}>
-                                                <input
-                                                    type="checkbox"
-                                                    className={styles.checkboxInput}
-                                                    checked={selectedSearchParts.includes(item.id || item.part_num)}
-                                                    onChange={() => toggleSelectPart(item)}
-                                                />
-                                                <span className={styles.checkmark}></span>
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <button onClick={addSelectedParts} className={styles.addSelectedButton}>
-                                Add Selected Parts
-                            </button>
-                        </>
-                    )}
+        <div className={styles.mainWrapper}>
+            <div className={styles.customizerContainer}>
+                <div className={`${styles.logoContainer} text-center`}>
+                    <img src={lego_logo_icon} alt="LEGO Logo" className={styles.logo} />
                 </div>
-                <button onClick={() => setIsModalOpen(true)} className={styles.floatingButton}>
-                    Open Selected Parts
-                </button>
+                <div className={styles.mainBodyContainer}>
+                    <div className={`${styles.searchHead} text-center`}>
+                        <h1 className={styles.mainTitle}><span>LEGO®</span> Set Customizer</h1>   
+                        <p className={styles.mainSubTitle}>Enter a LEGO set or parts to get started!</p>                     
+                        <div className={styles.searchContainer}>
+                            <select
+                                value={searchType}
+                                onChange={(e) => setSearchType(e.target.value)}
+                                className={styles.searchTypeSelect}
+                            >
+                                <option value="set">Set</option>
+                                <option value="part">Parts</option>
+                            </select>
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder={`Search ${searchType === 'set' ? 'set' : 'parts'}`}
+                                className={styles.searchInput}
+                            />
+                            <button onClick={handleSearch} className={styles.searchButton}>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                    {error && <p className={styles.error}>{error}</p>}
+                    <div className={styles.mainContent}>
+                        <div className={styles.leftColumn}>
+                            {searchResults.length > 0 && (
+                                <>
+                                    <div className={styles.controlButtons}>
+                                        <button onClick={selectAllParts} className={styles.secondaryButton}>Select All</button>
+                                        <button onClick={unselectAllParts} className={styles.secondaryButton}>Unselect All</button>
+                                    </div>
+                                    <h2 className={styles.sectionTitle}>
+                                        {searchResults.length === 1 && searchResults[0].setInfo ? 'Set Information' : 'Search Results'}
+                                    </h2>
+                                    {searchResults.length === 1 && searchResults[0].setInfo && (
+                                        <div className={styles.setInfo}>
+                                            <img src={searchResults[0].setInfo.set_img_url} alt={searchResults[0].setInfo.name} className={styles.setImage} />
+                                            <div className={styles.setDetails}>
+                                                <h3>{searchResults[0].setInfo.name}</h3>
+                                                <p>Set Number: {searchResults[0].setInfo.set_num}</p>
+                                                <p>Year: {searchResults[0].setInfo.year}</p>
+                                                <p>Number of Parts: {searchResults[0].setInfo.num_parts}</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                    <h3 className={styles.partsTitle}>
+                                        {searchResults.length === 1 && searchResults[0].setInfo ? 'Parts in this set:' : 'Search Results:'}
+                                    </h3>
+                                    <div className={styles.resultsContainer}>
+                                        <div className={styles.partGrid}>
+                                            {(searchResults.length === 1 && searchResults[0].parts ? searchResults[0].parts : searchResults).map((item) => (
+                                                <div key={item.id || item.part_num} className={styles.partCard}>
+                                                    <img src={item.part?.part_img_url || item.part_img_url} alt={item.part?.name || item.name} />
+                                                    <div className={styles.partInfo}>
+                                                        <h4>{item.part?.name || item.name}</h4>
+                                                        <p>ID: {item.part?.part_num || item.part_num}</p>
+                                                        {item.quantity && <p>Quantity: {item.quantity}</p>}
+                                                    </div>
+                                                    <label className={styles.checkbox}>
+                                                        <input
+                                                            type="checkbox"
+                                                            className={styles.checkboxInput}
+                                                            checked={selectedSearchParts.includes(item.id || item.part_num)}
+                                                            onChange={() => toggleSelectPart(item)}
+                                                        />
+                                                        <span className={styles.checkmark}></span>
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <button onClick={addSelectedParts} className={styles.addSelectedButton}>
+                                        Add Selected Parts
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                        <button onClick={() => setIsModalOpen(true)} className={styles.floatingButton}>
+                            Open Selected Parts
+                        </button>
+                    </div>
+                </div>
+
+                <SelectedPartsModal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    selectedParts={selectedParts}
+                    removePart={removePart}
+                    submitSelection={submitSelection}
+                    submissionStatus={submissionStatus}
+                />
             </div>
-            <SelectedPartsModal
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                selectedParts={selectedParts}
-                removePart={removePart}
-                submitSelection={submitSelection}
-                submissionStatus={submissionStatus}
-            />
         </div>
     );
 };
