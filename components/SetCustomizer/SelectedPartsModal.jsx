@@ -37,8 +37,9 @@ const SelectedPartsModal = ({ isOpen, onRequestClose, selectedParts, removePart,
                                             <li key={part.id || part.part_num} className={styles.selectedPart}>
                                                 <img src={part.part?.part_img_url || part.part_img_url} alt={part.part?.name || part.name} className={styles.selectedPartImage} />
                                                 <div className={styles.selectedPartInfo}>
+                                                    <p className={styles.setNumberHero}>ID: #{part.part?.set_num || part.set_num}</p>
                                                     <h4>{part.part?.name || part.name}</h4>
-                                                    <p>ID: {part.part?.part_num || part.part_num}</p>
+                                                    
                                                 </div>
                                                 <button onClick={() => removePart(part.id || part.part_num)} className={styles.removeButton}>
                                                     Remove
