@@ -56,10 +56,8 @@ const SetCustomizer = () => {
                     isSetPart: false
                 }));
             }
-
             setSearchResults(results);
 
-            // Set error message if no results are found
             if (results.length === 0) {
                 setError('No results found. Try again.');
             }
@@ -136,8 +134,14 @@ const SetCustomizer = () => {
         const partsToAdd = (searchResults.length === 1 && searchResults[0].parts ? searchResults[0].parts : searchResults)
             .filter(part => selectedSearchParts.includes(part.id || part.part_num));
         setSelectedParts(prevSelected => {
-            const newParts = partsToAdd.filter(part => !prevSelected.some(p => (p.id || p.part_num) === (part.id || part.part_num)));
-            return [...prevSelected, ...newParts];
+            const newParts = partsToAdd.map(part => ({
+                ...part,
+                id: part.id || part.part_num,
+                part_num: part.part?.part_num || part.part_num,
+                name: part.part?.name || part.name,
+                part_img_url: part.part?.part_img_url || part.part_img_url
+            }));
+            return [...prevSelected, ...newParts.filter(newPart => !prevSelected.some(p => p.id === newPart.id))];
         });
         setSelectedSearchParts([]);
         setIsModalOpen(true);
@@ -145,7 +149,6 @@ const SetCustomizer = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setSelectedParts([]);
         setSubmissionStatus(null);
         setCustomSetId(uuidv4());
     };
