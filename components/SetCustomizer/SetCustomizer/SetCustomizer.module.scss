@@ -28,7 +28,7 @@ $font-size-xxl: 32px;
 .mainBodyContainer {    
     display: flex;
     flex-direction: column;
-    height: calc(60vh - 100px);
+    height: calc(60vh - 145px);
     max-height: 100%;
 
     >* {
@@ -54,7 +54,7 @@ $font-size-xxl: 32px;
     color: $primary-red;
     font-size: $font-size-xxl;
     color: $primary-black;
-    margin: 5px 0;
+    margin: 50px 0 5px 0;
 
     >span {
         color: red;
@@ -287,11 +287,16 @@ $font-size-xxl: 32px;
     font-size: $font-size-md;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
     display: block;
 
-    &:hover {
+    &:hover:not(:disabled) {
         background-color: darken($primary-red, 10%);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     @media (max-width: 768px) {
@@ -661,4 +666,20 @@ $font-size-xxl: 32px;
     &:hover {
         background-color: $primary-red-dark;
     }
+}
+
+.loadingIcon {
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.searchButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
 }

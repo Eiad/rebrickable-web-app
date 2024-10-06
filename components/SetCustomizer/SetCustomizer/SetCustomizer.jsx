@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './SetCustomizer.module.scss';
 import SelectedPartsModal from '../SelectedPartsModal';
-import { lego_logo_icon, openList_icon } from '@/utilities/images';
+import { lego_logo_icon, openList_icon, loader_icon } from '@/utilities/images';
 import { v4 as uuidv4 } from 'uuid';
 
 const SetCustomizer = () => {
@@ -18,11 +18,13 @@ const SetCustomizer = () => {
     const [customSetId, setCustomSetId] = useState(uuidv4());
     const [submissionStatus, setSubmissionStatus] = useState(null);
     const [themeInfo, setThemeInfo] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSearch = async () => {
         setError('');
         setSearchResults([]);
         setThemeInfo(null);
+        setIsLoading(true);
         try {
             let results = [];
             if (searchType === 'set') {
@@ -64,6 +66,8 @@ const SetCustomizer = () => {
         } catch (error) {
             console.error('Search error:', error);
             setError('Search failed. Please try again.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -173,8 +177,16 @@ const SetCustomizer = () => {
                                     placeholder={`Search ${searchType === 'set' ? 'set' : 'parts'}`}
                                     className={styles.searchInput}
                                 />
-                                <button onClick={handleSearch} className={styles.searchButton}>
-                                    Search
+                                <button 
+                                    onClick={handleSearch} 
+                                    className={styles.searchButton} 
+                                    disabled={isLoading || searchQuery.trim() === ''}
+                                >
+                                    {isLoading ? (
+                                        <img src={loader_icon} alt="Loading" className={styles.loadingIcon} />
+                                    ) : (
+                                        'Search'
+                                    )}
                                 </button>
                             </div>
                         </div>
@@ -252,7 +264,11 @@ const SetCustomizer = () => {
                                             </div>
                                         </div>
                                         <div className={styles.SearchCtaContainer}>
-                                            <button onClick={addSelectedParts} className={styles.addSelectedButton}>
+                                            <button 
+                                                className={styles.addSelectedButton}
+                                                disabled={selectedSearchParts.length === 0}
+                                                onClick={addSelectedParts}
+                                            >
                                                 Add Selected Parts
                                             </button>
                                         </div>
