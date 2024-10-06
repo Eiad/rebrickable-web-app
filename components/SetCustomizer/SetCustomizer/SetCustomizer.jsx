@@ -70,7 +70,7 @@ const SetCustomizer = () => {
     };
 
     const toggleSelectPart = (event, part) => {
-        event.preventDefault(); // Prevent default behavior
+        event.preventDefault();
         const partId = part.id || part.part_num;
         setSelectedSearchParts(prevSelected =>
             prevSelected.includes(partId)
@@ -114,7 +114,7 @@ const SetCustomizer = () => {
                 id: response.data.id || customSetId
             });
             
-            // Clear the selectedParts after successful submission
+            // Clear the selection after successs
             setSelectedParts([]);
             
         } catch (error) {
@@ -170,7 +170,7 @@ const SetCustomizer = () => {
                     <div className={styles.mainBodyContainer}>
                         <div className={`${styles.searchHead} text-center`}>
                             <h1 className={styles.mainTitle}><span>LEGO®</span> Set Customizer</h1>   
-                            <p className={styles.mainSubTitle}>Enter a LEGO set or parts to get started!</p>                     
+                            <p className={styles.mainSubTitle}>Enter a LEGO set or part&#39;s ID to get started!</p>                     
                             <div className={styles.searchContainer}>
                                 <select
                                     value={searchType}
@@ -184,7 +184,7 @@ const SetCustomizer = () => {
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder={`Search ${searchType === 'set' ? 'set' : 'parts'}`}
+                                    placeholder={`Search ${searchType === 'set' ? 'set (Ex. 10338-1)' : 'parts (Ex. 92198pr0275)'}`}
                                     className={styles.searchInput}
                                 />
                                 <button 
@@ -265,7 +265,7 @@ const SetCustomizer = () => {
                                                                 type="checkbox"
                                                                 className={styles.checkboxInput}
                                                                 checked={selectedSearchParts.includes(item.id || item.part_num)}
-                                                                onChange={(e) => e.stopPropagation()} // Prevent double-triggering
+                                                                onChange={(e) => e.stopPropagation()} 
                                                             />
                                                             <span className={styles.checkmark}></span>
                                                         </label>

@@ -15,7 +15,7 @@ const PartList = ({ setParts }) => {
                     ))}
                 </ul>
             ) : (
-                <p>No parts to display. Search for a set to see its parts.</p>
+                <p>No parts to display. Search for a sets/parts and add them to your custom set.</p>
             )}
         </div>
     );
