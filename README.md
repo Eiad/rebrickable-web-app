@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LEGO® Set Customizer
+
+![LEGO Set Customizer](public/assets/screenshot.png)
+
+A web application that allows users to search, customize, and create their own LEGO® sets by combining parts from different sets or adding individual LEGO pieces.
+
+## Features
+
+- **Set Search**: Search for official LEGO sets using set numbers
+- **Part Search**: Find specific LEGO parts using part numbers or descriptions
+- **Part Selection**: Select multiple parts from sets or individual pieces
+- **Custom Set Creation**: Create and save your custom LEGO sets
+- **Real-time Filtering**: Filter selected parts within your custom set
+- **Responsive Design**: Fully responsive interface that works on desktop and mobile devices
+
+## Live Demo
+
+- **Frontend**: [https://rebrickableapp.vercel.app/](https://rebrickableapp.vercel.app/)
+- **Backend API**: [https://rebrickable-laravel-production.up.railway.app/api/custom-sets](https://rebrickable-laravel-production.up.railway.app/api/custom-sets)
+- **Design**: [View on Figma](https://www.figma.com/design/P3YGmYK3wM7Aq8XhJ8G2jX/Lego-Design-Home-page)
+
+## Tech Stack
+
+### Frontend
+- Next.js 14
+- React 18
+- SASS/SCSS for styling
+- Axios for API requests
+- React Modal for dialogs
+- UUID for unique identifiers
+
+### Backend
+- Laravel
+- MySQL
+- RESTful API
 
 ## Getting Started
 
-First, run the development server:
-
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [repository-url]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Create a `.env.local` file in the root directory with the following variables:
+```env
+NEXT_PUBLIC_REBRICKABLE_API_KEY=your_api_key
+NEXT_PUBLIC_LEGO_API_BASE_URL=https://rebrickable-laravel-production.up.railway.app
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Start the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+5. Open [http://localhost:3001](http://localhost:3001) in your browser
 
-To learn more about Next.js, take a look at the following resources:
+## Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The application runs on port 3001 by default. You can modify this in the `package.json` file:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```json:package.json
+startLine: 6
+endLine: 8
+```
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/components` - React components
+- `/styles` - Global styles and SCSS modules
+- `/utilities` - Helper functions and constants
+- `/public` - Static assets
+- `/pages` - Next.js pages and API routes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- [Rebrickable API](https://rebrickable.com/api/) for LEGO set and part data
+- [LEGO®](https://www.lego.com/) for inspiration
+- Design inspiration from the official LEGO website
+
+---
+LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this project.
